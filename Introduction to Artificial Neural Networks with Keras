@@ -1,0 +1,103 @@
+The Perceptron
+---
+The Perceptron in one of the simplest ANN architetures. 
+Its  based on a slightly different artificail neuron called a threshold logic unit (TLU), or sometimes a linear threshold unit (LTU): the inputs and output are now numbers and eacj input connection us associated with a weight.
+
+A single TLU can be used for simple linear binary classification. It computes a linear combination of the inputs and if the results exceeds a threshold, it outputs the positive class or else outputs the negative class.
+
+A perceptron is simpley composed of a single layer of TLU's with each TLU connected to all the inputs.
+
+A perceptron with teo inputs and three ouputs and on ebias neuron is called a multi-output classifier.
+
+Hebb's Rule:- The connection weight between two neurons is increased whenever they have the same output
+
+
+
+Multi-Layer Perceptron and Backpropagation
+-----------------------------
+An MLP is composed of one input layer, one or more layers of TLUs called hidden layers, and one final layer of TLUs called the output layer.
+
+When an ANN contains a deep stack of hidden layers, its called a deep neural network (DNN).
+
+Back-propagation is simply gradient descent using an efficient technique for computing the gradients automatically : in just two passes through the network (one forward, one backward), the propagation algorithm is able to compute the gradient of the network's error with regards to every single model parameter.
+
+
+more details:
+
+i) It handles one mini-batch and it goes through the full training set multiple times
+ii) Each mini batch is passed to the network's input layer, which just sends it to the first hidden layer. The algorithm then computes the output of all the neurons in this layer.
+iii)  Next, the algorithm measures the network's output error.
+iv) Then it omputes how much each output connection contributed to the error. This is done analytically by simple applying the chain rule, which makes the step fast and precise.
+v) The algorithm then measures how much of these error contributions came from each connection in the layer below.
+vi) Finally, the algorithm performs a Gradient Descent step to tweak all the connections weights in the network, using the error gradients i just computed.
+
+
+For each training instance the propagation algorithm first makes a prediction (forward pass), measures the error, then goes through each layer in reverse to measure the error contribution from each connection (reverse pass), and finally slightly yweaks the connection weights to reduce the errors.
+
+The two popular activation functions are:
+
+1. The hyperbolic tangent function 
+2. The Rectified Linear Unit Function
+
+
+
+Regression MLPs
+--------------------
+When building an MLP for regression, you dont want to use any activation function for the output neurons, so they are fere to output any range of values
+
+However, if you want to guranteee that the output will always be positive, tehn you can use the ReLU activation function, or the softplus activation function in the output layer.
+
+Finally, if you want to gurantee that the predictions will fall within a given range of values, then you can use the logistic function or the hyperbolic tangent, and scale the labels to the appropriate range: 0 to 1 for the logistic function, or -1 to 1 for the hyperbolic tangent.
+
+The loss function to use during training is typicall the means squared error, but if you have a lot of outliers in the training set, you may prefer to use the mean absolute error instead. Alternatively, you can use the Huber loss, which is a combination of both.
+
+
+
+Classification MLPs
+------------
+
+MLPs an also be used for classification tasks. For a binary problem, you just need a single output neuron using the logistic activation function: the output will be a number between 0 and 1, which you can interpret as the estimated probability of the positive class.
+Obviously the estimated probability of the negative class is equal to one minus that number.
+
+
+
+Implementing MLPs with Keras
+----------
+
+Keras is a high-level Deep Learning API that allows ou to easily build, train and evaluate and execute all sorts of neural networks
+
+
+Number of Hidden Layers
+-----------------
+Trasfer learning
+
+For many problems you can start with just one or two hidden layers and it will work just fine.
+
+For more complex problems, you can gradually ramp up the number of hidden layers, until you start overfitting the training set.
+
+Number of Neurons per Hidden Layer
+------------
+
+The number of neurons in the input and output layers is determined by the type of input and output your task requires.
+
+As for hidden layers, it used to be a comon practice to form a pyramid, with fewer and fewer neurons at each layer - the rationale being that many low level features can coalese into far fewer higl-level features.
+
+stretch pants approach.
+
+
+Learning Rate, Batch Size and Other Hyperparameters
+-----
+
+. the learning rate is arguably the most important yperparameter. In general, the optmal learning rate is about half of the maximum learning rate.
+
+
+. Choosing a better otimizer than plain old Mini-Batch Gradient Descent is also quite important.
+
+. The bach size can also have a significant impact on your models performance and the training time. Keep it a 32 or lower.
+
+.ReLU actiavtion function will be a good default for all hidden layers.
+
+. In most cases, the number os training iterations does not actually need to be tweaked: just use early stopping instead.
+
+
+
